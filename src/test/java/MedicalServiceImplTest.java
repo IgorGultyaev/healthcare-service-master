@@ -28,41 +28,42 @@ public class MedicalServiceImplTest {
         System.out.println("\nTest complete");
     }
 
-@Test
-void checkBloodPressure_test(){
-
-
-    PatientInfoFileRepository patientInfoFileRepositoryMock = Mockito.mock(PatientInfoFileRepository.class);
-    Mockito.when(patientInfoFileRepositoryMock.getById((Mockito.anyString())))
-            .thenReturn(new PatientInfo("123","Вальдемар", "Евлампиевич",
-                    LocalDate.of(2019, 8, 10),
-                    new HealthInfo(new BigDecimal(37), new BloodPressure(120,80))));
-
-    SendAlertService alertServiceMock = Mockito.mock(SendAlertServiceImpl.class);
-
-    MedicalService medicalService = new MedicalServiceImpl(patientInfoFileRepositoryMock,alertServiceMock);
-    medicalService.checkBloodPressure("123",new BloodPressure(140,100));
-
-
-    ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
-    Mockito.verify(alertServiceMock).send(argumentCaptor.capture());
-
-    Assertions.assertEquals("Warning, patient with id: 123, need help", argumentCaptor.getValue());
-
-}
-@Test
-    void checkTemperature_test(){
+    @Test
+    void checkBloodPressure_test() {
 
 
         PatientInfoFileRepository patientInfoFileRepositoryMock = Mockito.mock(PatientInfoFileRepository.class);
         Mockito.when(patientInfoFileRepositoryMock.getById((Mockito.anyString())))
-                .thenReturn(new PatientInfo("123","Вальдемар", "Евлампиевич",
+                .thenReturn(new PatientInfo("123", "Вальдемар", "Евлампиевич",
                         LocalDate.of(2019, 8, 10),
-                        new HealthInfo(new BigDecimal(37), new BloodPressure(120,80))));
+                        new HealthInfo(new BigDecimal(37), new BloodPressure(120, 80))));
 
         SendAlertService alertServiceMock = Mockito.mock(SendAlertServiceImpl.class);
 
-        MedicalService medicalService = new MedicalServiceImpl(patientInfoFileRepositoryMock,alertServiceMock);
+        MedicalService medicalService = new MedicalServiceImpl(patientInfoFileRepositoryMock, alertServiceMock);
+        medicalService.checkBloodPressure("123", new BloodPressure(140, 100));
+
+
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        Mockito.verify(alertServiceMock).send(argumentCaptor.capture());
+
+        Assertions.assertEquals("Warning, patient with id: 123, need help", argumentCaptor.getValue());
+
+    }
+
+    @Test
+    void checkTemperature_test() {
+
+
+        PatientInfoFileRepository patientInfoFileRepositoryMock = Mockito.mock(PatientInfoFileRepository.class);
+        Mockito.when(patientInfoFileRepositoryMock.getById((Mockito.anyString())))
+                .thenReturn(new PatientInfo("123", "Вальдемар", "Евлампиевич",
+                        LocalDate.of(2019, 8, 10),
+                        new HealthInfo(new BigDecimal(37), new BloodPressure(120, 80))));
+
+        SendAlertService alertServiceMock = Mockito.mock(SendAlertServiceImpl.class);
+
+        MedicalService medicalService = new MedicalServiceImpl(patientInfoFileRepositoryMock, alertServiceMock);
         medicalService.checkTemperature("123", new BigDecimal("34.00"));
 
         ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
@@ -71,28 +72,25 @@ void checkBloodPressure_test(){
 
     }
 
-@Test
-    void indicators_are_normal(){
+    @Test
+    void indicators_are_normal() {
 
-    PatientInfoFileRepository patientInfoFileRepositoryMock = Mockito.mock(PatientInfoFileRepository.class);
-    Mockito.when(patientInfoFileRepositoryMock.getById((Mockito.anyString())))
-            .thenReturn(new PatientInfo("123","Вальдемар", "Евлампиевич",
-                    LocalDate.of(2019, 8, 10),
-                    new HealthInfo(new BigDecimal(37), new BloodPressure(120,80))));
+        PatientInfoFileRepository patientInfoFileRepositoryMock = Mockito.mock(PatientInfoFileRepository.class);
+        Mockito.when(patientInfoFileRepositoryMock.getById((Mockito.anyString())))
+                .thenReturn(new PatientInfo("123", "Вальдемар", "Евлампиевич",
+                        LocalDate.of(2019, 8, 10),
+                        new HealthInfo(new BigDecimal(37), new BloodPressure(120, 80))));
 
-    SendAlertService alertServiceMock = Mockito.mock(SendAlertServiceImpl.class);
-    ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
-    MedicalService medicalService = new MedicalServiceImpl(patientInfoFileRepositoryMock,alertServiceMock);
+        SendAlertService alertServiceMock = Mockito.mock(SendAlertServiceImpl.class);
+        ArgumentCaptor<String> argumentCaptor = ArgumentCaptor.forClass(String.class);
+        MedicalService medicalService = new MedicalServiceImpl(patientInfoFileRepositoryMock, alertServiceMock);
 
-    medicalService.checkTemperature("123", new BigDecimal("36.00"));
-    medicalService.checkBloodPressure("123",new BloodPressure(120,80));
+        medicalService.checkTemperature("123", new BigDecimal("36.00"));
+        medicalService.checkBloodPressure("123", new BloodPressure(120, 80));
 
-    Mockito.verify(alertServiceMock, Mockito.times(0))
-            .send(Mockito.anyString());
+        Mockito.verify(alertServiceMock, Mockito.times(0))
+                .send(Mockito.anyString());
 
-}
-
-
-
+    }
 
 }
